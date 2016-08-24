@@ -1,0 +1,6 @@
+#ifndef VERSION_HPP
+#define VERSION_HPP VERSION_HPP
+
+#define ASUC_VERSION "0.2"
+
+#endif // VERSION_HPP
