@@ -17,19 +17,9 @@
  * along with Asuc.  If not, see <http://www.gnu.org/licenses/>
  */
 
-#include <QApplication>
-#include "MainWindow.hpp"
+#ifndef VERSION_ASUC_H_
+#define VERSION_ASUC_H_ 1
 
-int main(int argc, char *argv[])
-{
+#define ASUC_VERSION "0.2"
 
-   QApplication a(argc, argv);
-   a.setOrganizationName("SvOlli");
-   a.setOrganizationDomain("svolli.org");
-   a.setApplicationName("asuc");
-
-   MainWindow w;
-   w.show();
-
-   return a.exec();
-}
+#endif // VERSION_ASUC_H_

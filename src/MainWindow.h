@@ -17,44 +17,22 @@
  * along with Asuc.  If not, see <http://www.gnu.org/licenses/>
  */
 
-#ifndef MAINWINDOW_HPP
-#define MAINWINDOW_HPP MAINWINDOW_HPP
+#ifndef MAIN_WINDOW_H_
+#define MAIN_WINDOW_H_ 1
 
-/* base class */
 #include <QMainWindow>
 
-/* system headers */
-
-/* Qt headers */
-
-/* local library headers */
-
-/* local headers */
-
-/* forward declaration of Qt classes */
-
-/* forward declaration of local classes */
 class MainWidget;
-
 
 class MainWindow : public QMainWindow
 {
    Q_OBJECT
 
 public:
-   MainWindow( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+   MainWindow();
 
 protected:
-   /* intercept for writing the settings */
-   virtual void closeEvent( QCloseEvent *event );
-   /* very ugly workaround for wrong position restoration on Ubuntu */
-   virtual bool event( QEvent *event );
-
-private:
-   int mForbidMove;
-
-   MainWindow( const MainWindow &other );
-   MainWindow &operator=( const MainWindow &other );
+   virtual void closeEvent(QCloseEvent *event);
 };
 
-#endif
+#endif // MAIN_WINDOW_H_

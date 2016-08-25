@@ -17,9 +17,28 @@
  * along with Asuc.  If not, see <http://www.gnu.org/licenses/>
  */
 
-#ifndef VERSION_HPP
-#define VERSION_HPP VERSION_HPP
+#include <QtGui>
+#include <QApplication>
 
-#define ASUC_VERSION "0.2"
+#include "MainWindow.h"
+#include "MainWidget.h"
 
-#endif // VERSION_HPP
+MainWindow::MainWindow() : QMainWindow(NULL, 0)
+{
+    QSettings settings;
+
+    setCentralWidget(new MainWidget(this));
+    setWindowTitle(tr("asuc : A Simple Udp Console"));
+
+    restoreGeometry(settings.value("MAIN_WIN_GEOMETRY").toByteArray());
+    restoreState(settings.value("MAIN_WIN_STATE").toByteArray());
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    QSettings settings;
+
+    settings.setValue("MAIN_WIN_GEOMETRY", saveGeometry());
+    settings.setValue("MAIN_WIN_STATE", saveState());
+    QMainWindow::closeEvent(event);
+}

@@ -17,51 +17,42 @@
  * along with Asuc.  If not, see <http://www.gnu.org/licenses/>
  */
 
-#ifndef MAINWIDGET_HPP
-#define MAINWIDGET_HPP MAINWIDGET_HPP
+#ifndef MAIN_WIDGET_H_
+#define MAIN_WIDGET_H_ 1
 
-/* base class */
 #include <QWidget>
-#include <QSpinBox>
-#include <QLineEdit>
+#include <QHostAddress>
 
-/* system headers */
-
-/* Qt headers */
-
-/* local library headers */
-
-/* local headers */
-
-/* forward declaration of Qt classes */
 class QUdpSocket;
-
-/* forward declaration of local classes */
-class MyTextEdit;
-
+class QLineEdit;
+class QSpinBox;
+class ConsoleTextEdit;
 
 class MainWidget : public QWidget
 {
-   Q_OBJECT
+    Q_OBJECT
 
 public:
-   MainWidget( QWidget *parent = 0 );
-   virtual ~MainWidget();
+    MainWidget(QWidget *_parent = 0);
+    virtual ~MainWidget();
 
 public slots:
-   /* (re)start the listener */
-   void udpStartListen();
-   /* read data from UDP socket */
-   void udpRead();
-   /* send out data via UDP */
-   void udpSend( const QString &text );
+    /* (re)start the listener */
+    void udpStartListen();
+    /* Destination address changed */
+    void hostAddrChanged(const QString &text);
+    /* read data from UDP socket */
+    void udpRead();
+    /* send out data via UDP */
+    void udpSend(const QString &text);
 
 private:
-   QUdpSocket     *mpSocket;
-   QSpinBox       *mpMyPort;
-   QLineEdit      *mpDestHost;
-   QSpinBox       *mpDestPort;
-   MyTextEdit     *mpEdit;
+    QUdpSocket      *m_socket;
+    QSpinBox        *m_srcPort;
+    QLineEdit       *m_destHost;
+    QHostAddress    m_destAddr;
+    QSpinBox        *m_destPort;
+    ConsoleTextEdit *m_txtEdit;
 };
 
-#endif // MAINWIDGET_HPP
+#endif // MAIN_WIDGET_H_
