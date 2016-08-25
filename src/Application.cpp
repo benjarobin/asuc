@@ -23,9 +23,9 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    a.setOrganizationName("SvOlli");
-    a.setApplicationName("asuc");
-    a.setWindowIcon(QIcon(":/icon.png"));
+    a.setOrganizationName(QLatin1String("SvOlli"));
+    a.setApplicationName(QLatin1String("asuc"));
+    a.setWindowIcon(QIcon(QLatin1String(":/icon.png")));
 
     MainWindow w;
     w.show();

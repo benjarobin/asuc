@@ -38,7 +38,7 @@ public:
     };
 
     /* append text to text edit */
-    void append(const QString &data, type info = TYPE_RCV);
+    void append(const QString &txtRcv, type info = TYPE_RCV);
 
 public slots:
     /* send the clipboard */

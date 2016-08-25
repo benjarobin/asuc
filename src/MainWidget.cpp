@@ -29,7 +29,7 @@
 #include "MainWidget.h"
 #include "Version.h"
 #include "ConsoleTextEdit.h"
-
+#include "Settings.h"
 
 MainWidget::MainWidget(QWidget *_parent) : QWidget(_parent),
     m_socket(new QUdpSocket(this)),
@@ -42,15 +42,15 @@ MainWidget::MainWidget(QWidget *_parent) : QWidget(_parent),
 
     m_srcPort->setAlignment(Qt::AlignRight);
     m_srcPort->setRange(1025, 65535);
-    m_srcPort->setValue(settings.value("SRC_PORT", 6666 ).toInt());
+    m_srcPort->setValue(settings.value(SRC_PORT, 6666).toInt());
 
     m_destPort->setAlignment(Qt::AlignRight);
     m_destPort->setRange(1, 65535);
-    m_destPort->setValue(settings.value("DEST_PORT", 6666 ).toInt());
+    m_destPort->setValue(settings.value(DEST_PORT, 6666).toInt());
 
-    m_destHost->setText(settings.value("DEST_HOST").toString());
+    m_destHost->setText(settings.value(DEST_HOST).toString());
 
-    m_txtEdit->setFont(QFont("Courier"));
+    m_txtEdit->setFont(QFont(QLatin1String("Courier")));
     m_txtEdit->append(tr("*** Version %1 ***\n").arg(ASUC_VERSION), ConsoleTextEdit::TYPE_INFO);
     m_txtEdit->setFocus();
 
@@ -80,9 +80,9 @@ MainWidget::MainWidget(QWidget *_parent) : QWidget(_parent),
 MainWidget::~MainWidget()
 {
     QSettings settings;
-    settings.setValue("SRC_PORT",  m_srcPort->value());
-    settings.setValue("DEST_PORT", m_destPort->value());
-    settings.setValue("DEST_HOST", m_destHost->text());
+    settings.setValue(SRC_PORT,  m_srcPort->value());
+    settings.setValue(DEST_PORT, m_destPort->value());
+    settings.setValue(DEST_HOST, m_destHost->text());
     settings.sync();
 }
 
@@ -114,16 +114,16 @@ void MainWidget::udpRead()
 {
     while (m_socket->hasPendingDatagrams())
     {
-        QByteArray data;
-        data.resize(m_socket->pendingDatagramSize());
-        m_socket->readDatagram(data.data(), data.size());
-        m_txtEdit->append(QString::fromUtf8(data));
+        QByteArray dataRcv;
+        dataRcv.resize(m_socket->pendingDatagramSize());
+        m_socket->readDatagram(dataRcv.data(), dataRcv.size());
+        m_txtEdit->append(QString::fromUtf8(dataRcv));
     }
 }
 
 void MainWidget::udpSend(const QString &text)
 {
-    QByteArray data(text.toUtf8());
+    QByteArray dataSnd(text.toUtf8());
     if (m_destAddr.isNull())
     {
         m_txtEdit->append(tr("*** send error: %1 ***\n").arg(m_destHost->text()),
@@ -132,6 +132,6 @@ void MainWidget::udpSend(const QString &text)
     else
     {
         quint16 port(m_destPort->value());
-        m_socket->writeDatagram(data, m_destAddr, port);
+        m_socket->writeDatagram(dataSnd, m_destAddr, port);
     }
 }

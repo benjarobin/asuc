@@ -17,11 +17,16 @@
  * along with Asuc.  If not, see <http://www.gnu.org/licenses/>
  */
 
-#ifndef VERSION_ASUC_H_
-#define VERSION_ASUC_H_ 1
+#ifndef SETTINGS_ASUC_H_
+#define SETTINGS_ASUC_H_ 1
 
 #include <QString>
 
-#define ASUC_VERSION  QLatin1String("0.2")
+#define MAIN_WIN_GEOMETRY  QLatin1String("MAIN_WIN_GEOMETRY")
+#define MAIN_WIN_STATE     QLatin1String("MAIN_WIN_STATE")
 
-#endif // VERSION_ASUC_H_
+#define SRC_PORT     QLatin1String("SRC_PORT")
+#define DEST_PORT    QLatin1String("DEST_PORT")
+#define DEST_HOST    QLatin1String("DEST_HOST")
+
+#endif // SETTINGS_ASUC_H_

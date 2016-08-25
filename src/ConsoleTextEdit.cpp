@@ -41,9 +41,9 @@ ConsoleTextEdit::~ConsoleTextEdit()
 {
 }
 
-void ConsoleTextEdit::append(const QString &data, ConsoleTextEdit::type info)
+void ConsoleTextEdit::append(const QString &txtRcv, ConsoleTextEdit::type info)
 {
-    QStringList list(data.split(QChar(8)));
+    QStringList list(txtRcv.split(QChar(8)));
     QTextCharFormat format;
 
     switch (info) {

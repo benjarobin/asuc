@@ -22,6 +22,7 @@
 
 #include "MainWindow.h"
 #include "MainWidget.h"
+#include "Settings.h"
 
 MainWindow::MainWindow() : QMainWindow(NULL, 0)
 {
@@ -30,15 +31,15 @@ MainWindow::MainWindow() : QMainWindow(NULL, 0)
     setCentralWidget(new MainWidget(this));
     setWindowTitle(tr("asuc : A Simple Udp Console"));
 
-    restoreGeometry(settings.value("MAIN_WIN_GEOMETRY").toByteArray());
-    restoreState(settings.value("MAIN_WIN_STATE").toByteArray());
+    restoreGeometry(settings.value(MAIN_WIN_GEOMETRY).toByteArray());
+    restoreState(settings.value(MAIN_WIN_STATE).toByteArray());
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     QSettings settings;
 
-    settings.setValue("MAIN_WIN_GEOMETRY", saveGeometry());
-    settings.setValue("MAIN_WIN_STATE", saveState());
+    settings.setValue(MAIN_WIN_GEOMETRY, saveGeometry());
+    settings.setValue(MAIN_WIN_STATE, saveState());
     QMainWindow::closeEvent(event);
 }
