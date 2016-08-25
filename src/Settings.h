@@ -1,7 +1,7 @@
 /**
  * This file is part of Asuc.
  *
- * Copyright 2010 Sven Oliver Moll
+ * Copyright 2016 Benjamin Robin
  *
  * Asuc is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

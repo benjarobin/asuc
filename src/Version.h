@@ -2,6 +2,7 @@
  * This file is part of Asuc.
  *
  * Copyright 2010 Sven Oliver Moll
+ * Copyright 2016 Benjamin Robin
  *
  * Asuc is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,6 +23,6 @@
 
 #include <QString>
 
-#define ASUC_VERSION  QLatin1String("0.2")
+#define ASUC_VERSION  QLatin1String("0.3")
 
 #endif // VERSION_ASUC_H_

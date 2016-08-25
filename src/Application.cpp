@@ -2,6 +2,7 @@
  * This file is part of Asuc.
  *
  * Copyright 2010 Sven Oliver Moll
+ * Copyright 2016 Benjamin Robin
  *
  * Asuc is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,7 +24,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    a.setOrganizationName(QLatin1String("SvOlli"));
+    a.setOrganizationName(QLatin1String("benjarobin"));
     a.setApplicationName(QLatin1String("asuc"));
     a.setWindowIcon(QIcon(QLatin1String(":/icon.png")));
 

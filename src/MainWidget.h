@@ -2,6 +2,7 @@
  * This file is part of Asuc.
  *
  * Copyright 2010 Sven Oliver Moll
+ * Copyright 2016 Benjamin Robin
  *
  * Asuc is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +27,7 @@
 class QUdpSocket;
 class QLineEdit;
 class QSpinBox;
+class QHostInfo;
 class ConsoleTextEdit;
 
 class MainWidget : public QWidget
@@ -40,7 +42,9 @@ public slots:
     /* (re)start the listener */
     void udpStartListen();
     /* Destination address changed */
-    void hostAddrChanged(const QString &text);
+    void hostAddrEdited();
+    void hostLookedUp(const QHostInfo &host);
+    void showSendingAddr();
     /* read data from UDP socket */
     void udpRead();
     /* send out data via UDP */
@@ -48,11 +52,14 @@ public slots:
 
 private:
     QUdpSocket      *m_socket;
-    QSpinBox        *m_srcPort;
-    QLineEdit       *m_destHost;
-    QHostAddress    m_destAddr;
+    QSpinBox        *m_localPort;
+    QLineEdit       *m_hostEdit;
     QSpinBox        *m_destPort;
     ConsoleTextEdit *m_txtEdit;
+
+    QString         m_prevHost;
+    QHostAddress    m_destAddr;
+    int             m_lookUpId;
 };
 
 #endif // MAIN_WIDGET_H_
