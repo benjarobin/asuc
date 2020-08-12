@@ -33,9 +33,11 @@ ConsoleTextEdit::ConsoleTextEdit(QWidget *_parent) : QTextEdit(_parent)
     m_txtFormat[TYPE_INFO].setForeground(QBrush(QColor(0, 0, 180)));
     m_txtFormat[TYPE_ERR].setForeground(QBrush(QColor(255, 0, 0)));
 
-    setReadOnly( true );
-    setAcceptRichText( false );
-    setCursorWidth( 2 );
+    setReadOnly(true);
+    setAcceptRichText(false);
+    setOverwriteMode(true);
+
+    m_editCursor = textCursor();
 }
 
 ConsoleTextEdit::~ConsoleTextEdit()
@@ -60,9 +62,6 @@ void ConsoleTextEdit::append(const QString &txtRcv, ConsoleTextEdit::type info)
             break;
     }
 
-    QTextCursor cursor(textCursor());
-    cursor.movePosition(QTextCursor::End);
-
     bool skipFirst = true;
     foreach (const QString &s, list)
     {
@@ -72,11 +71,11 @@ void ConsoleTextEdit::append(const QString &txtRcv, ConsoleTextEdit::type info)
         }
         else
         {
-            cursor.deletePreviousChar();
+            m_editCursor.deletePreviousChar();
         }
-        cursor.insertText(s, format);
+        m_editCursor.insertText(s, format);
     }
-    setTextCursor(cursor);
+    setTextCursor(m_editCursor);
 
     QScrollBar *sb = verticalScrollBar();
     sb->setValue(sb->maximum());
@@ -93,39 +92,69 @@ void ConsoleTextEdit::insertClipboard(bool useSelection)
     }
 }
 
+bool ConsoleTextEdit::focusNextPrevChild(bool next)
+{
+    Q_UNUSED(next);
+    return false;
+}
+
 void ConsoleTextEdit::keyPressEvent(QKeyEvent *e)
 {
-    if ( ((e->modifiers() == Qt::ControlModifier) && (e->key() == Qt::Key_V)) ||
-         ((e->modifiers() == Qt::ShiftModifier)   && (e->key() == Qt::Key_Insert)) )
+    const Qt::KeyboardModifiers mod = e->modifiers();
+    const int key = e->key();
+
+    e->accept();
+
+    if ( ((mod == Qt::ControlModifier) && (key == Qt::Key_V)) ||
+         ((mod == Qt::ShiftModifier)   && (key == Qt::Key_Insert)) )
     {
         insertClipboard();
-        e->accept();
         return;
     }
 
-    if ( (e->modifiers() == Qt::ControlModifier) && (e->key() == Qt::Key_A) )
+    if ( (mod == Qt::ControlModifier) && (key == Qt::Key_A) )
     {
         selectAll();
-        e->accept();
         return;
     }
 
-    if ( ((e->modifiers() == Qt::ControlModifier) && (e->key() == Qt::Key_C)) ||
-         ((e->modifiers() == Qt::ControlModifier) && (e->key() == Qt::Key_Insert)) )
+    if ( ((mod == Qt::ControlModifier) && (key == Qt::Key_C)) ||
+         ((mod == Qt::ControlModifier) && (key == Qt::Key_Insert)) )
     {
         copy();
-        e->accept();
         return;
     }
 
-    if (e->text().isEmpty())
+    if (mod == Qt::NoModifier)
     {
-        e->ignore();
-        return;
+        switch (key) {
+        case Qt::Key_Up:
+            emit text(QLatin1String("\033[A"));
+            return;
+        case Qt::Key_Down:
+            emit text(QLatin1String("\033[B"));
+            return;
+        case Qt::Key_Right:
+            emit text(QLatin1String("a")); //("\033[C"));
+            return;
+        case Qt::Key_Left:
+            //emit text(QLatin1String("\033[D"));
+            emit text(QLatin1String("\008"));
+            return;
+        case Qt::Key_Return:
+        case Qt::Key_Enter:
+            emit text(QLatin1String("\n"));
+            return;
+        default:
+            break;
+        }
     }
 
-    emit text(e->text());
-    e->accept();
+    if (!e->text().isEmpty())
+    {
+        emit text(e->text());
+        return;
+    }
 }
 
 void ConsoleTextEdit::contextMenuEvent(QContextMenuEvent *e)

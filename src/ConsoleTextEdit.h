@@ -23,6 +23,7 @@
 
 #include <QTextEdit>
 #include <QTextCharFormat>
+#include <QTextCursor>
 
 class ConsoleTextEdit : public QTextEdit
 {
@@ -51,6 +52,7 @@ signals:
 
 protected:
     /* reimplemented to send them via text signal */
+    bool focusNextPrevChild(bool next);
     void keyPressEvent(QKeyEvent *event);
     /* reimplemented to add paste & clear */
     void contextMenuEvent(QContextMenuEvent *event);
@@ -63,6 +65,7 @@ private:
     ConsoleTextEdit(const ConsoleTextEdit &that);
     ConsoleTextEdit &operator=(const ConsoleTextEdit &that);
 
+    QTextCursor m_editCursor;
     QTextCharFormat m_txtFormat[3];
 };
 
